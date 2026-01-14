@@ -221,7 +221,7 @@ async function getPrerequisites() {
     const fetchPromises = allClasses.map(async (classItem) => {
         // Parse discipline (letters) and number (digits)
         // Format: "COMP3700" -> discipline: "COMP", number: "3700"
-        const match = classItem.match(/^([A-Z]+)(\d+)$/);
+        const match = classItem.match(/^([A-Z]+)(\w+)$/);
         if (!match) {
             console.warn(`Invalid class format: ${classItem}`);
             return null;
@@ -298,31 +298,36 @@ async function getPrerequisites() {
 
         for (let i = 0; i < prerequisites.length; i++) {
             const prereq = prerequisites[i];
-            const code = prereq.subjectCodePrerequisite + prereq.courseNumberPrerequisite;
-            const prereqObj = {};
-            prereqObj[code] = { minimumGrade: prereq.minimumGrade || null };
-
-            // Add to current group
-            currentGroup.push(prereqObj);
-
-            // Check if this is the end of a group (right parenthesis or last item)
-            // or if next connector is AND
-            const nextPrereq = prerequisites[i + 1];
-
-            if (prereq.rightParenthesis === ')' || !nextPrereq) {
-                // End of a group, push current group to result
-                if (currentGroup.length > 0) {
-                    result.push(currentGroup);
-                    currentGroup = [];
-                }
-            } else if (nextPrereq && nextPrereq.connector === 'A') {
-                // Next is AND, so current group ends here
-                if (currentGroup.length > 0) {
-                    result.push(currentGroup);
-                    currentGroup = [];
-                }
+            if (prereq.subjectCodePrerequisite == '' && prereq.courseNumberPrerequisite == '') {
+                continue;
             }
-            // If connector is 'O' (OR), continue adding to current group
+            else {
+                const code = prereq.subjectCodePrerequisite + prereq.courseNumberPrerequisite;
+                const prereqObj = {};
+                prereqObj[code] = { minimumGrade: prereq.minimumGrade || null };
+
+                // Add to current group
+                currentGroup.push(prereqObj);
+
+                // Check if this is the end of a group (right parenthesis or last item)
+                // or if next connector is AND
+                const nextPrereq = prerequisites[i + 1];
+
+                if (prereq.rightParenthesis === ')' || !nextPrereq) {
+                    // End of a group, push current group to result
+                    if (currentGroup.length > 0) {
+                        result.push(currentGroup);
+                        currentGroup = [];
+                    }
+                } else if (nextPrereq && nextPrereq.connector === 'A') {
+                    // Next is AND, so current group ends here
+                    if (currentGroup.length > 0) {
+                        result.push(currentGroup);
+                        currentGroup = [];
+                    }
+                }
+                // If connector is 'O' (OR), continue adding to current group
+            }
         }
 
         // Handle any remaining items in currentGroup

@@ -80,14 +80,20 @@ async function fetchDegreeWorksAudit() {
             return;
         }
 
-        const studentId = userInfoResponse.data.id;
+        const studentId = userInfoResponse.data._embedded.students[0].id;
+        const studentSchool = userInfoResponse.data._embedded.students[0].goals[0].school.key;
+        const studentDegree = userInfoResponse.data._embedded.students[0].goals[0].degree.key;
         console.log("=== Student ID obtained:", studentId, "===");
+        console.log("=== Student School obtained:", studentSchool, "===");
+        console.log("=== Student Degree obtained:", studentDegree, "===");
 
         // Now fetch the audit with the obtained student ID
         const auditResponse = await chrome.runtime.sendMessage({
             action: "fetchDegreeWorksAudit",
             cookie: capturedCookie,
-            studentId: studentId
+            studentId: studentId,
+            studentSchool: studentSchool,
+            studentDegree: studentDegree
         });
 
         if (auditResponse.success) {

@@ -30,7 +30,7 @@ async function fetchLatestVersionFromAPI() {
  */
 async function fetchUserInfo(cookie) {
   console.log("=== Background: fetchUserInfo called ===");
-  const url = 'https://dw.auburn.edu/DashboardApplication/api/users/myself';
+  const url = 'https://dw.auburn.edu/DashboardApplication/api/students/myself';
 
   try {
     const response = await fetch(url, {
@@ -91,12 +91,14 @@ async function fetchCourseLink(cookie, discipline, number) {
  * Fetch DegreeWorks audit data
  * @param {string} cookie - The session cookie
  * @param {string} studentId - The student ID
+ * @param {string} studentSchool - The student school key
+ * @param {string} studentDegree - The student degree key
  * @returns {Promise<Object>} - The audit data
  */
-async function fetchDegreeWorksAudit(cookie, studentId) {
+async function fetchDegreeWorksAudit(cookie, studentId, studentSchool, studentDegree) {
 
   console.log("=== Background: fetchDegreeWorksAudit called ===");
-  const url = `https://dw.auburn.edu/DashboardApplication/api/audit?studentId=${studentId}&school=UG&degree=BS&is-process-new=false&audit-type=AA&auditId=&include-inprogress=true&include-preregistered=true&aid-term=`;
+  const url = `https://dw.auburn.edu/DashboardApplication/api/audit?studentId=${studentId}&school=${studentSchool}&degree=${studentDegree}&is-process-new=false&audit-type=AA&auditId=&include-inprogress=true&include-preregistered=true&aid-term=`;
 
   try {
     const response = await fetch(url, {
@@ -173,7 +175,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     return true;
   }
   if (request.action === "fetchDegreeWorksAudit") {
-    fetchDegreeWorksAudit(request.cookie, request.studentId)
+    fetchDegreeWorksAudit(request.cookie, request.studentId, request.studentSchool, request.studentDegree)
       .then(data => {
         sendResponse({ success: true, data: data });
       })

@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "Degreeworks Extension",
+  "version": "0.0.1",
+  "description": "Appends Degreeworks information to student profiles",
+  "permissions": ["storage", "webRequest"],
+  "host_permissions": [
+    "https://alpha216.github.io/*",
+    "https://dw.auburn.edu/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://dw.auburn.edu/*"],
+      "js": ["version.js", "dw.js", "app.js", "contentScript.js", "flowchart/flowchart.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [{ 
+    "resources": [ "flowchart/roadmap.html" ],
+    "matches": [ "<all_urls>" ]
+  }],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Degreeworks Extension"
+  }
+}

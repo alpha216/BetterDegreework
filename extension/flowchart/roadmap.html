@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Roadmap</title>
+    <link rel="stylesheet" href="roadmap.css">
+</head>
+<body>
+    <!-- Popup Modal -->
+    <div class="popup-overlay" id="popup-overlay">
+        <div class="popup">
+            <button class="popup-close" id="popup-close">&times;</button>
+            <div class="popup-code" id="popup-code"></div>
+            <div class="popup-title" id="popup-title"></div>
+            <div class="popup-section">
+                <div class="popup-section-title">Prerequisites</div>
+                <ul class="prereq-list" id="prereq-list"></ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="legend">
+        <div class="legend-title">Legend</div>
+        <div class="legend-item"><div class="legend-color legend-taken"></div> Completed</div>
+        <div class="legend-item"><div class="legend-color legend-available"></div> Available</div>
+        <div class="legend-item"><div class="legend-color legend-locked"></div> Prerequisites Not Met</div>
+        <div class="legend-item"><div class="legend-color legend-section"></div> Category</div>
+    </div>
+
+    <div id="roadmap-container">
+        <svg id="connections-svg"></svg>
+        <div id="sections-container">
+            <div class="loading">Loading course roadmap...</div>
+        </div>
+    </div>
+
+    <script src="roadmap.js"></script>
+</body>
+</html>

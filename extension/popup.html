@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Degreeworks Extension</title>
+		<style>
+			body { font-family: Arial, sans-serif; margin: 16px; }
+			.btn { margin: 8px 0; padding: 8px 16px; font-size: 15px; border: none; border-radius: 5px; cursor: pointer; }
+			.btn-primary { background: #1976d2; color: #fff; }
+			.btn-secondary { background: #eee; color: #333; }
+			#statusValue { margin-bottom: 10px; display: block; }
+		</style>
+</head>
+<body>
+		<span id="statusValue"></span>
+		<button id="showFlowchartBtn" class="btn btn-primary">Show Flowchart</button>
+		<button id="updateClassBtn" class="btn btn-secondary">Update Class Data</button>
+		<div id="classesContainer" style="margin-top:16px;">
+			<div id="classesList"></div>
+		</div>
+		<script src="popup.js"></script>
+</body>
+</html>
